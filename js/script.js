@@ -1,9 +1,3 @@
-//Array con oggetti OK
-//Creare un ciclo che aggiunge gli oggetti dell'array nell'HTML e assegna active al primo OK
-//Al click del bottome aggiunge "active" all'elemento succ o precedente (dipende dal bottone) OK
-//Bonus 1 aggiungere un timing per spostare l'active alle immagini tramite un bottone e un altro che lo ferma
-//Bonus 2 bottone che inverte l'ordine
-
 const images = [
     {
         image: 'img/01.webp',
@@ -27,11 +21,10 @@ const images = [
         text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
     }
 ];
-
 const list = document.querySelector(".list");
 const foreground = document.querySelector(".foreground");
 
-images.forEach((game) => {
+images.forEach(game => {
     list.innerHTML += `<img src="${game.image}" class="${images[0] === game ? "active" : ""}">`;
     foreground.innerHTML += `
                                 <div class="cover ${images[0] === game ? "active" : ""}">
@@ -46,27 +39,56 @@ images.forEach((game) => {
 
 const listGames = document.querySelectorAll(".list img");
 const foregroundGames = document.querySelectorAll(".foreground .cover");
+const onOff = document.querySelector("#on_off");
+const reverseMode = document.querySelector("#invert_mode");
 
 let activeGame = 0;
+let autoInterval;
+let autoFlag = true;
+let invertFlag = true;
 
 function goUp() {
-    listGames[activeGame].classList.remove("active");
     foregroundGames[activeGame].classList.remove("active");
+    listGames[activeGame].classList.remove("active");
+
     activeGame--;
-    if (activeGame < 0) {
-        activeGame = images.length-1
-    }
-    listGames[activeGame].classList.add("active");
+    activeGame < 0 ? activeGame = images.length - 1 : "";
+
     foregroundGames[activeGame].classList.add("active");
+    listGames[activeGame].classList.add("active");
 }
 
 function goDown() {
-    listGames[activeGame].classList.remove("active");
     foregroundGames[activeGame].classList.remove("active");
+    listGames[activeGame].classList.remove("active");
+
     activeGame++
-    if (activeGame > images.length-1) {
-        activeGame = 0;
-    }
-    listGames[activeGame].classList.add("active");
+    activeGame > images.length - 1 ? activeGame = 0 : "";
+
     foregroundGames[activeGame].classList.add("active");
+    listGames[activeGame].classList.add("active");
+}
+
+function autoMode() {
+    clearInterval(autoInterval);
+    if (autoFlag) {
+        autoInterval = setInterval(goDown, 1000);
+        onOff.innerHTML = "Stop";
+        return autoFlag = false;
+    }
+    onOff.innerHTML = "Start";
+    return autoFlag = true;
+}
+
+function invertMode() {
+    onOff.innerHTML = "Stop";
+    clearInterval(autoInterval);
+    if (invertFlag) {
+        autoInterval = setInterval(goUp, 1000);
+        reverseMode.innerHTML = "Verso il basso";
+        return invertFlag = false, autoFlag = false;
+    }
+    autoInterval = setInterval(goDown, 1000);
+    reverseMode.innerHTML = "Verso l'alto";
+    return invertFlag = true, autoFlag = false;
 }
