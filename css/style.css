@@ -108,3 +108,17 @@ h2 {
     filter: none;
     border-color: white;
 }
+
+.controls {
+    display: flex;
+    gap: 2rem;
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.controls button {
+    font-size: 1.2rem;
+    padding: 1rem;
+}
