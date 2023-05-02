@@ -16,11 +16,11 @@ li {
 .foreground,
 .list img,
 .list button {
-    border: 0.8px solid black;
+    border: 1px solid black;
 }
 
 .container {
-    min-width: 900px;
+    min-width: 700px;
     max-width: 1250px;
     margin: 7rem auto;
     display: flex;
@@ -29,15 +29,32 @@ li {
 }
 
 .foreground {
+    position: relative;
     height: 600px;
     flex: 0 0 75%;
 }
 
-.foreground>img {
+.cover {
+    height: 100%;
     display: none;
+}
+
+.cover>img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.cover div {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    text-align: end;
+    color: white;
+}
+
+h2 {
+    margin-bottom: 0.5rem;
 }
 
 .list {
