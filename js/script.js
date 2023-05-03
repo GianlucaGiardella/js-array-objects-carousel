@@ -26,15 +26,13 @@ const foreground = document.querySelector(".foreground");
 
 images.forEach(game => {
     list.innerHTML += `<img src="${game.image}" class="${images[0] === game ? "active" : ""}">`;
-    foreground.innerHTML += `
-                                <div class="cover ${images[0] === game ? "active" : ""}">
-                                    <img src="${game.image}">
-                                    <div>
-                                        <h2>${game.title}</h2>
-                                        <p>${game.text}</p>
-                                    </div>
-                                </div>
-                                `;
+    foreground.innerHTML += `<div class="cover ${images[0] === game ? "active" : ""}">
+                                 <img src="${game.image}">
+                                 <div>
+                                     <h2>${game.title}</h2>
+                                     <p>${game.text}</p>
+                                 </div>
+                             </div>`;
 });
 
 const listGames = document.querySelectorAll(".list img");
@@ -46,6 +44,16 @@ let activeGame = 0;
 let autoInterval;
 let autoFlag = true;
 let invertFlag = true;
+
+for (let i = 0; i < images.length; i++) {
+    listGames[i].addEventListener("click", () => {
+        foregroundGames[activeGame].classList.remove("active");
+        listGames[activeGame].classList.remove("active");
+        activeGame = i;
+        foregroundGames[i].classList.add("active");
+        listGames[i].classList.add("active");
+    })
+}
 
 function goUp() {
     foregroundGames[activeGame].classList.remove("active");
@@ -85,10 +93,10 @@ function invertMode() {
     clearInterval(autoInterval);
     if (invertFlag) {
         autoInterval = setInterval(goUp, 1000);
-        reverseMode.innerHTML = "Verso il basso";
+        reverseMode.innerHTML = "To the bottom";
         return invertFlag = false, autoFlag = false;
     }
     autoInterval = setInterval(goDown, 1000);
-    reverseMode.innerHTML = "Verso l'alto";
+    reverseMode.innerHTML = "To the top";
     return invertFlag = true, autoFlag = false;
 }
